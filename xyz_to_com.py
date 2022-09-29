@@ -48,22 +48,23 @@ def read_xyz_file(dir_file_xyz):
         # The remaining lines correspond to individual atoms
         for line in f:
             words = line.split()
-            if len(words)==4:
+            if len(words) == 4:
                 atom, x, y, z = line.split()
                 geometry.append((atom, float(x), float(y), float(z)))
 
     return geometry
 
 
-def write_com_file(dir_file_com, geometry, route, link='', charge=0, spin=1, add_input='', nproc=8, mem='16GB', chk=False):
+def write_com_file(dir_file_com, geometry, route, link='', charge=0, spin=1,
+                   add_input='', nproc=8, mem='16GB', chk=False):
     """
     Function which writes a Gaussian input .com file given a molecular geometry
     and other arguments.
 
     Arguments:
 
-        - dir_file_com: string containing the full path to the desired
-                        output .com file, including the .com extension
+        - dir_file_com: string containing the full path to the desired output
+                        .com file, including the .com extension
 
         - geometry: a list of 4-tuples, where each atom in the molecule
                     corresponds to one 4-tuple.  Each 4-tuple contains
@@ -71,21 +72,23 @@ def write_com_file(dir_file_com, geometry, route, link='', charge=0, spin=1, add
 
         - route: string containing the routeline for the Gaussian job
 
-        - link: optional string containing a routeline for a secondary Gaussian job to be run
-                after the first job is complete
+        - link: optional string containing a routeline for a secondary Gaussian
+                job to be run after the first job is complete
 
         - charge: integer charge of the molecule
 
         - spin: integer spin of the molecule
 
-        - add_input: optional string containing additional lines to append at the
-                     end of the main Gaussian job, used for scans and other constraints
+        - add_input: optional string containing additional lines to append at
+                     the end of the main Gaussian job, used for scans and other
+                     constraints
 
         - nproc: integer number of processors to use for the Gaussian job
 
         - mem: string describing amount of memory to use for the Gaussian job
 
-        - chk: boolean describing whether to write a Gaussian .chk checkpoint file
+        - chk: boolean describing whether to write a Gaussian .chk checkpoint
+               file
 
     Returns:
 
@@ -137,15 +140,62 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert .xyz output files \
         into .com Gaussian input files")
 
-    parser.add_argument("files", help="pattern that matches .xyz output files", nargs='+')
-    parser.add_argument("-r", "--route", help="routeline (default '#p opt freq=noraman b3lyp/6-31+g(d,p)')", default='#p opt freq=noraman b3lyp/6-31+g(d,p)')
-    parser.add_argument("-l", "--link", help="link1 routeline for second job (default None)", default='')
-    parser.add_argument("-c", "--charge", help="charge (default 0)", default=0, type=int)
-    parser.add_argument("-s", "--spin", help="spin (default 1)", default=1, type=int)
-    parser.add_argument("-n", "--nproc", help="number of processors (default 8)", default=8, type=int)
-    parser.add_argument("-m", "--mem", help="memory as a string (default '16GB')", default='16GB')
-    parser.add_argument("-a", "--add", help="lines to append to file for constraints and scans (default None)", default='')
-    parser.add_argument("--chk", help="write checkpoint files", action='store_true')
+    parser.add_argument(
+        "files",
+        help="pattern that matches .xyz output files",
+        nargs='+',
+    )
+
+    parser.add_argument(
+        "-r", "--route",
+        help="routeline (default '#p opt freq=noraman ub3lyp/6-31+g(d,p)')",
+        default='#p opt freq=noraman ub3lyp/6-31+g(d,p)',
+    )
+
+    parser.add_argument(
+        "-l", "--link",
+        help="link1 routeline for second job (default None)",
+        default='',
+    )
+
+    parser.add_argument(
+        "-c", "--charge",
+        help="charge (default 0)",
+        default=0,
+        type=int,
+    )
+
+    parser.add_argument(
+        "-s", "--spin",
+        help="spin (default 1)",
+        default=1,
+        type=int,
+    )
+
+    parser.add_argument(
+        "-n", "--nproc",
+        help="number of processors (default 8)",
+        default=8,
+        type=int,
+    )
+
+    parser.add_argument(
+        "-m", "--mem",
+        help="memory as a string (default '16GB')",
+        default='16GB',
+    )
+
+    parser.add_argument(
+        "-a", "--add",
+        help="lines to add to file for constraints and scans (default None)",
+        default='',
+    )
+
+    parser.add_argument(
+        "--chk",
+        help="write checkpoint files",
+        action='store_true',
+    )
 
     args = parser.parse_args()
 
@@ -165,5 +215,5 @@ if __name__ == "__main__":
         write_com_file(
             dir_file_com, geometry, args.route, link=args.link,
             charge=args.charge, spin=args.spin, add_input=args.add,
-            nproc=args.nproc, mem=args.mem, chk=args.chk)
-
+            nproc=args.nproc, mem=args.mem, chk=args.chk,
+        )
