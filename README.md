@@ -46,10 +46,10 @@ The following section walks through a complete example of using HATPredict to pr
 
 ## Step 1: Optimize the Geometries of All Starting Materials and Products
 
-Use Gaussian 16 to optimize all starting materials and products present in all of your HAT reactions.  The optimizations must be performed at the **B3LYP/6-31+G(d,p)** level of theory using the following route line:
+Use Gaussian 16 to optimize all starting materials and products present in all of your HAT reactions.  The optimizations must be performed at the **UB3LYP/6-31+G(d,p)** level of theory using the following route line:
 
 ```
-#p opt freq=noraman b3lyp/6-31+g(d,p)
+#p opt freq=noraman ub3lyp/6-31+g(d,p)
 ```
 
 Be sure to optimize **A–H**,  **A·**, **B–H**, and **B·** for each HAT reaction, and be sure the charge and spin for each species is correct.  The Gaussian files may be named according to convenience for your particular project.  If a species appears in more than one reaction (such as when considering many reactions of a single catalyst), the species only needs to be optimized once.
